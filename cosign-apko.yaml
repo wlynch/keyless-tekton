@@ -1,0 +1,18 @@
+
+
+contents:
+  repositories:
+    - https://dl-cdn.alpinelinux.org/alpine/edge/main
+    - https://dl-cdn.alpinelinux.org/alpine/edge/community
+  packages:
+    - alpine-base
+    - cosign
+
+cmd: /bin/sh -l
+  
+environment:
+  COSIGN_EXPERIMENTAL: 1
+
+archs:
+  - amd64
+  - arm64

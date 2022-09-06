@@ -1,0 +1,40 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: keyless
+spec:
+  steps:
+    - name: checkout
+      image: distroless.dev/git
+      workingdir: /workspace
+      script: |
+        git clone https://github.com/chainguard-dev/go-demo
+    - name: build
+      image: distroless.dev/ko
+      workingDir: /workspace/go-demo
+      env:
+        - name: KO_DOCKER_REPO
+          value: ttl.sh
+      script: |
+        ko build . > $(results.IMAGES.path)
+    - name: sign
+      image: us-docker.pkg.dev/wlynch-chainguard/public/cosign
+      env:
+        - name: COSIGN_EXPERIMENTAL
+          value: "1"
+      volumeMounts:
+        - name: oidc-sigstore
+          mountPath: "/var/run/sigstore/cosign"
+          readOnly: true
+      script: |
+        cosign sign `cat $(results.IMAGES.path)`
+  volumes:
+  - name: oidc-sigstore
+    projected:
+      sources:
+      - serviceAccountToken:
+          audience: sigstore
+          expirationSeconds: 600
+          path: oidc-token
+  results:
+    - name: IMAGES
