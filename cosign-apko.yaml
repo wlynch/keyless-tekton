@@ -1,5 +1,4 @@
-
-
+# This file contains a simple image containing cosign with a shell.
 contents:
   repositories:
     - https://dl-cdn.alpinelinux.org/alpine/edge/main

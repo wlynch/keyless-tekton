@@ -1,0 +1,30 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: git-resolve
+spec:
+  taskRef:
+    resolver: git
+    params:
+      - name: org
+        value: tektoncd-catalog
+      - name: repo
+        value: git-clone
+      - name: pathInRepo
+        value: task/git-clone/git-clone.yaml
+      - name: revision
+        value: 2298f211d1d160ec45c497cb2d719d0794383ba4
+  params:
+    - name: url
+      value: https://github.com/actions/checkout
+    - name: revision
+      value: c7d749a2d57b4b375d1ebcd17cfbfb60c676f18e
+  workspaces:
+    - name: output
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi

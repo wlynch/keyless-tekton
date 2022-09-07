@@ -1,0 +1,27 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: pr-sign
+spec:
+  pipelineSpec:
+    tasks:
+      - name: task1
+        taskSpec:
+          results:
+            - name: IMAGES
+          steps:
+            - name: echo
+              image: ubuntu
+              script: |
+                #!/usr/bin/env bash
+                echo "ttl.sh/wlynch-test@sha256:7c9c8686f7f07eaad9468c3ea2f6d435b8fa92e758cf613e01d2fad59c1af941" > $(results.IMAGES.path)
+      - name: task2
+        taskSpec:
+          results:
+            - name: IMAGES
+          steps:
+            - name: echo
+              image: ubuntu
+              script: |
+                #!/usr/bin/env bash
+                echo "ttl.sh/wlynch-test@sha256:7c9c8686f7f07eaad9468c3ea2f6d435b8fa92e758cf613e01d2fad59c1af941" > $(results.IMAGES.path)

@@ -5,6 +5,10 @@ metadata:
 spec:
   steps:
     - name: echo
-      image: distroless.dev/alpine-base
+      image: cgr.dev/chainguard/alpine-base:latest-20221218
+      script: |
+        echo "Hello World!"
+    - name: echo2
+      image: cgr.dev/chainguard/alpine-base:latest-20221219
       script: |
         echo "Hello World!"

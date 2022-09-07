@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  generateName: git-remote-
+spec:
+  taskRef:
+    resolver: git
+    params:
+    - name: org
+      value: tektoncd-catalog
+    - name: repo
+      value: git-clone
+    - name: revision
+      value: 2298f211d1d160ec45c497cb2d719d0794383ba4
+    - name: pathInRepo
+      value: task/git-clone/git-clone.yaml
+  params:
+    - name: url
+      value: https://github.com/wlynch/imposter-commits-demo
+  workspaces:
+    - name: output
+      emptyDir: {}
